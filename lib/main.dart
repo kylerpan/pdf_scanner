@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:pdfScanner/image_preview.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -101,12 +100,22 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     Icons.insert_drive_file,
                     color: Colors.white,
                   ),
-                  onPressed: () {
-                    // _ImagePreviewState().getImage(false);
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => ImagePreview()));
+                  onPressed: () async {
+                    File image;
+                    PickedFile pickedimage;
+
+                    if (true) {
+                      pickedimage = await ImagePicker()
+                          .getImage(source: ImageSource.camera);
+                    } else {
+                      pickedimage = await ImagePicker()
+                          .getImage(source: ImageSource.gallery);
+                    }
+
+                    image = File(pickedimage.path);
+                    setState(() {
+                      _image = image;
+                    });
                   },
                 ),
               ),
@@ -128,13 +137,22 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     Icons.camera_alt,
                     color: Colors.white,
                   ),
-                  onPressed: () {
-                    getImage(true, _image);
-                    setState(() {});
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => ImagePreview()));
+                  onPressed: () async {
+                    File image;
+                    PickedFile pickedimage;
+
+                    if (true) {
+                      pickedimage = await ImagePicker()
+                          .getImage(source: ImageSource.camera);
+                    } else {
+                      pickedimage = await ImagePicker()
+                          .getImage(source: ImageSource.gallery);
+                    }
+
+                    image = File(pickedimage.path);
+                    setState(() {
+                      _image = image;
+                    });
                   },
                 ),
               ),
@@ -165,17 +183,4 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       ),
     );
   }
-}
-
-getImage(bool isCamera, File image) async {
-  // File image;
-  PickedFile pickedimage;
-
-  if (isCamera) {
-    pickedimage = await ImagePicker().getImage(source: ImageSource.camera);
-  } else {
-    pickedimage = await ImagePicker().getImage(source: ImageSource.gallery);
-  }
-
-  image = File(pickedimage.path);
 }
