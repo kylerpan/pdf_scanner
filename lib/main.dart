@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pdfScanner/image_preview.dart';
-import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:pdfScanner/image_preview.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -16,25 +17,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
-  // to access camera
   File _image;
-
-  Future getImage(bool isCamera) async {
-    File image;
-    PickedFile pickedimage;
-    if (isCamera) {
-      pickedimage = await ImagePicker().getImage(source: ImageSource.camera);
-      image = File(pickedimage.path);
-    } else {
-      pickedimage = await ImagePicker().getImage(source: ImageSource.gallery);
-      image = File(pickedimage.path);
-    }
-    setState(() {
-      _image = image;
-    });
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ImagePreview()));
-  }
 
   // to get the degrees for offset
   double getRadiansFromDegrees(double degree) {
@@ -70,6 +53,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       body: Column(
         children: <Widget>[
           Text("hello world"),
+          if (_image != null)
+            Container(
+              child: Image.file(_image, height: 300.0, width: 300.0),
+            ),
+
+          // _image == null
+          //     ? Container()
+          //     : Image.file(_image, height: 300.0, width: 300.0),
+
           // _image == null
           //     ? Container()
           //     : Navigator.push(context,
@@ -110,7 +102,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    getImage(false);
+                    // _ImagePreviewState().getImage(false);
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => ImagePreview()));
                   },
                 ),
               ),
@@ -133,7 +129,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    getImage(true);
+                    getImage(true, _image);
+                    setState(() {});
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => ImagePreview()));
                   },
                 ),
               ),
@@ -164,4 +165,17 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       ),
     );
   }
+}
+
+getImage(bool isCamera, File image) async {
+  // File image;
+  PickedFile pickedimage;
+
+  if (isCamera) {
+    pickedimage = await ImagePicker().getImage(source: ImageSource.camera);
+  } else {
+    pickedimage = await ImagePicker().getImage(source: ImageSource.gallery);
+  }
+
+  image = File(pickedimage.path);
 }
