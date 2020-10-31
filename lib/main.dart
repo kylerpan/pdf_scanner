@@ -51,27 +51,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       appBar: AppBar(title: Text("PDF Scanner")),
       body: Column(
         children: <Widget>[
-          Text("hello world"),
+          if (_image == null) Text("hello world"),
           if (_image != null)
             Container(
               child: Image.file(_image, height: 300.0, width: 300.0),
             ),
-
-          // _image == null
-          //     ? Container()
-          //     : Image.file(_image, height: 300.0, width: 300.0),
-
-          // _image == null
-          //     ? Container()
-          //     : Navigator.push(context,
-          //         MaterialPageRoute(builder: (context) => ImagePreview())),
-          // Container() : Image.file(_image, height: 300.0, width: 300.0)
-          // RaisedButton(
-          //   onPressed: () {
-          //     Navigator.push(context,
-          //         MaterialPageRoute(builder: (context) => ImagePreview()));
-          //   },
-          // ),
         ],
       ),
       floatingActionButton: Stack(
@@ -103,15 +87,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   onPressed: () async {
                     File image;
                     PickedFile pickedimage;
-
-                    if (true) {
-                      pickedimage = await ImagePicker()
-                          .getImage(source: ImageSource.camera);
-                    } else {
-                      pickedimage = await ImagePicker()
-                          .getImage(source: ImageSource.gallery);
-                    }
-
+                    pickedimage = await ImagePicker()
+                        .getImage(source: ImageSource.gallery);
                     image = File(pickedimage.path);
                     setState(() {
                       _image = image;
@@ -140,15 +117,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   onPressed: () async {
                     File image;
                     PickedFile pickedimage;
-
-                    if (true) {
-                      pickedimage = await ImagePicker()
-                          .getImage(source: ImageSource.camera);
-                    } else {
-                      pickedimage = await ImagePicker()
-                          .getImage(source: ImageSource.gallery);
-                    }
-
+                    pickedimage = await ImagePicker()
+                        .getImage(source: ImageSource.camera);
                     image = File(pickedimage.path);
                     setState(() {
                       _image = image;
